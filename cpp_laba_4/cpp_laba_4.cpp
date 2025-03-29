@@ -28,38 +28,38 @@ public:
         znam /= nod;
     }
     
-    int getZnam() { return znam; }
-    int getChis() { return chis; }
-    friend Rational operator+ (Rational&, Rational&);
-    friend Rational operator+ (int&, Rational&);
-    friend Rational operator+ (Rational&, int&);
-    friend Rational operator- (Rational&, Rational&);
-    friend Rational operator- (int&, Rational&);
-    friend Rational operator- (Rational&, int&);
-    friend Rational operator* (Rational&, Rational&);
-    friend Rational operator* (int&, Rational&);
-    friend Rational operator* (Rational&, int&);
-    friend Rational operator/ (Rational&, Rational&);
-    friend Rational operator/ (int&, Rational&);
-    friend Rational operator/ (Rational&, int&);
+    int getZnam() const { return znam; }
+    int getChis() const { return chis; }
+    friend Rational operator+ (const Rational&, const Rational&);
+    friend Rational operator+ (int, const Rational&);
+    friend Rational operator+ (const Rational&, int);
+    friend Rational operator- (const Rational&, const Rational&);
+    friend Rational operator- (int, const Rational&);
+    friend Rational operator- (const Rational&, int);
+    friend Rational operator* (const Rational&, const Rational&);
+    friend Rational operator* (int, const Rational&);
+    friend Rational operator* (const Rational&, int);
+    friend Rational operator/ (const Rational&, const Rational&);
+    friend Rational operator/ (int, const Rational&);
+    friend Rational operator/ (const Rational&, int);
     
     friend ostream& operator<< (ostream&, Rational&);
 };
 
-Rational operator+ (Rational& left, Rational& right) {
+Rational operator+ (const Rational& left, const Rational& right) {
     int znam = NOK(left.getZnam(), right.getZnam());
     int chis = left.getChis() * (znam / left.getZnam()) + right.getChis() * (znam / right.getZnam());
     Rational result(chis, znam);
     return result;
 }
 
-Rational operator+ (int& left, Rational& right) {
+Rational operator+ (int left, Rational& right) {
     Rational leftRational = left;
     Rational result = leftRational + right;
     return result;
 }
 
-Rational operator+ (Rational& left, int& right) {
+Rational operator+ (Rational& left, int right) {
     Rational rightRational = right;
     Rational result = left + rightRational;
     return result;
@@ -72,13 +72,13 @@ Rational operator- (Rational& left, Rational& right) {
     return result;
 }
 
-Rational operator- (int& left, Rational& right) {
+Rational operator- (int left, Rational& right) {
     Rational leftRational = left;
     Rational result = leftRational - right;
     return result;
 }
 
-Rational operator- (Rational& left, int& right) {
+Rational operator- (Rational& left, int right) {
     Rational rightRational = right;
     Rational result = left - rightRational;
     return result;
@@ -91,13 +91,13 @@ Rational operator* (Rational& left, Rational& right) {
     return result;
 }
 
-Rational operator* (int& left, Rational& right) {
+Rational operator* (int left, Rational& right) {
     Rational leftRational = left;
     Rational result = leftRational * right;
     return result;
 }
 
-Rational operator* (Rational& left, int& right) {
+Rational operator* (Rational& left, int right) {
     Rational rightRational = right;
     Rational result = left * rightRational;
     return result;
@@ -109,13 +109,13 @@ Rational operator/ (Rational& left, Rational& right) {
     return result;
 }
 
-Rational operator/ (int& left, Rational& right) {
+Rational operator/ (int left, Rational& right) {
     Rational leftRational = left;
     Rational result = leftRational / right;
     return result;
 }
 
-Rational operator/ (Rational& left, int& right) {
+Rational operator/ (Rational& left, int right) {
     Rational rightRational = right;
     Rational result = left / rightRational;
     return result;
@@ -126,11 +126,43 @@ ostream& operator<< (ostream& out, Rational& r) {
     return out;
 }
 
+bool operator> (Rational& left, Rational& right) {
+    int znam = NOK(left.getZnam(), right.getZnam());
+    int chisl = left.getChis() * (znam / left.getZnam());
+    int chisr = right.getChis() * (znam / right.getZnam());
+    return chisl > chisr;
+}
+
 int main()
 {
-    int a = 9;
-    Rational b(5, 3);
-    Rational c(1, 4);
-    Rational l = a / c;
-    cout << l;
+    setlocale(LC_ALL, "Russian");
+    cout << "Вводим числа 3 и -9" << "\n" << "Результат: ";
+    Rational num1(3, -9);
+    cout << num1 << endl;
+
+    cout << "Вводим число 3" << "\n" << "Результат: ";
+    Rational num2 = 3; //испльзуется конструктор преобразования
+    cout << num2 << endl;
+
+    Rational num3(2, 3);
+    Rational num4(3, 5);
+
+    Rational res = num3 - num4;
+    cout << "2/3 - 3/5 = " << res << endl;
+
+    Rational res4 = num3 - 3;
+    cout << "2/3 - 3 = " << res4 << endl;
+
+    Rational res2 = num3 * num4;
+    cout << "2/3 * 3/5 = " << res2 << endl;
+
+    Rational res3 = num3 * 5;
+    cout << "2/3 * 5 = " << res3 << endl;
+
+    Rational res5 = num3 / num4;
+    cout << "2/3 / 3/5 = " << res5 << endl;
+    
+    //переделать с выводом текстика, а не 0 и 1
+    bool res6 = num3 > num4;
+    cout << "2/3 > 3/5 = " << res6 << endl;
 }
