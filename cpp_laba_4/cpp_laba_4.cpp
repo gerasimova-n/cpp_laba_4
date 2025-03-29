@@ -30,28 +30,107 @@ public:
     
     int getZnam() { return znam; }
     int getChis() { return chis; }
-    friend Rational operator+ (const Rational&, const Rational&);
-    friend Rational operator- (const Rational&, const Rational&);
-    friend Rational operator* (const Rational&, const Rational&);
-    friend Rational operator/ (const Rational&, const Rational&);
-
-    void print() {
-        cout << getChis() << '/' << getZnam() << endl;
-    }
+    friend Rational operator+ (Rational&, Rational&);
+    friend Rational operator+ (int&, Rational&);
+    friend Rational operator+ (Rational&, int&);
+    friend Rational operator- (Rational&, Rational&);
+    friend Rational operator- (int&, Rational&);
+    friend Rational operator- (Rational&, int&);
+    friend Rational operator* (Rational&, Rational&);
+    friend Rational operator* (int&, Rational&);
+    friend Rational operator* (Rational&, int&);
+    friend Rational operator/ (Rational&, Rational&);
+    friend Rational operator/ (int&, Rational&);
+    friend Rational operator/ (Rational&, int&);
+    
+    friend ostream& operator<< (ostream&, Rational&);
 };
 
 Rational operator+ (Rational& left, Rational& right) {
     int znam = NOK(left.getZnam(), right.getZnam());
     int chis = left.getChis() * (znam / left.getZnam()) + right.getChis() * (znam / right.getZnam());
-    Rational sum(chis, znam);
-    return sum;
+    Rational result(chis, znam);
+    return result;
+}
+
+Rational operator+ (int& left, Rational& right) {
+    Rational leftRational = left;
+    Rational result = leftRational + right;
+    return result;
+}
+
+Rational operator+ (Rational& left, int& right) {
+    Rational rightRational = right;
+    Rational result = left + rightRational;
+    return result;
+}
+
+Rational operator- (Rational& left, Rational& right) {
+    int znam = NOK(left.getZnam(), right.getZnam());
+    int chis = left.getChis() * (znam / left.getZnam()) - right.getChis() * (znam / right.getZnam());
+    Rational result(chis, znam);
+    return result;
+}
+
+Rational operator- (int& left, Rational& right) {
+    Rational leftRational = left;
+    Rational result = leftRational - right;
+    return result;
+}
+
+Rational operator- (Rational& left, int& right) {
+    Rational rightRational = right;
+    Rational result = left - rightRational;
+    return result;
+}
+
+Rational operator* (Rational& left, Rational& right) {
+    int chis = left.getChis() * right.getChis();
+    int znam = left.getZnam() * right.getZnam();
+    Rational result(chis, znam);
+    return result;
+}
+
+Rational operator* (int& left, Rational& right) {
+    Rational leftRational = left;
+    Rational result = leftRational * right;
+    return result;
+}
+
+Rational operator* (Rational& left, int& right) {
+    Rational rightRational = right;
+    Rational result = left * rightRational;
+    return result;
+}
+
+Rational operator/ (Rational& left, Rational& right) {
+    Rational nright(right.getZnam(), right.getChis());
+    Rational result = left * nright;
+    return result;
+}
+
+Rational operator/ (int& left, Rational& right) {
+    Rational leftRational = left;
+    Rational result = leftRational / right;
+    return result;
+}
+
+Rational operator/ (Rational& left, int& right) {
+    Rational rightRational = right;
+    Rational result = left / rightRational;
+    return result;
+}
+
+ostream& operator<< (ostream& out, Rational& r) {
+    out << r.getChis() << '/' << r.getZnam() << endl;
+    return out;
 }
 
 int main()
 {
-    Rational a;
-    Rational b = 9;
-    Rational c(3, 6);
-    Rational l = b + c;
-    l.print();
+    int a = 9;
+    Rational b(5, 3);
+    Rational c(1, 4);
+    Rational l = a / c;
+    cout << l;
 }
