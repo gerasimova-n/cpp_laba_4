@@ -32,8 +32,9 @@ public:
     friend Rational operator- (const Rational&, const Rational&);
     friend Rational operator* (const Rational&, const Rational&);
     friend Rational operator/ (const Rational&, const Rational&);
-    friend bool operator> (const Rational& left, const Rational& right);
-    friend bool operator== (const Rational& left, const Rational& right);
+    friend bool operator> (const Rational&, const Rational&);
+    friend bool operator== (const Rational&, const Rational&);
+    friend double rationalInDouble(const Rational&);
     
     friend ostream& operator<< (ostream&, const Rational&);
 };
@@ -217,6 +218,10 @@ bool operator<= (const Rational& left, const int right) {
     return result;
 }
 
+double rationalInDouble (const Rational& num) {
+    return ((double)num.chis/(double)num.znam);
+}
+
 int main()
 {
     setlocale(LC_ALL, "Russian");
@@ -248,13 +253,17 @@ int main()
     
     bool res6 = num3 > num4;
     if (res6 == 1)
-        cout << "2/3 > 3/5" << endl;
+        cout << "2/3 > 3/5" << '\n' << endl;
     else
-        cout << "2/3 < 3/5" << endl;
+        cout << "2/3 < 3/5" << '\n' << endl;
 
     bool res7 = num3 == num4;
     if (res7 == 1)
-        cout << "2/3 == 3/5" << endl;
+        cout << "2/3 == 3/5" << '\n' << endl;
     else
-        cout << "2/3 != 3/5" << endl;
+        cout << "2/3 != 3/5" << '\n' << endl;
+
+    cout << "Представим 2/3 как double: ";
+    double res8 = rationalInDouble(num3);
+    cout << res8 << endl;
 }
