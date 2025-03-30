@@ -28,109 +28,193 @@ public:
         znam /= nod;
     }
     
-    int getZnam() const { return znam; }
-    int getChis() const { return chis; }
     friend Rational operator+ (const Rational&, const Rational&);
-    friend Rational operator+ (int, const Rational&);
-    friend Rational operator+ (const Rational&, int);
     friend Rational operator- (const Rational&, const Rational&);
-    friend Rational operator- (int, const Rational&);
-    friend Rational operator- (const Rational&, int);
     friend Rational operator* (const Rational&, const Rational&);
-    friend Rational operator* (int, const Rational&);
-    friend Rational operator* (const Rational&, int);
     friend Rational operator/ (const Rational&, const Rational&);
-    friend Rational operator/ (int, const Rational&);
-    friend Rational operator/ (const Rational&, int);
+    friend bool operator> (const Rational& left, const Rational& right);
+    friend bool operator== (const Rational& left, const Rational& right);
     
-    friend ostream& operator<< (ostream&, Rational&);
+    friend ostream& operator<< (ostream&, const Rational&);
 };
 
 Rational operator+ (const Rational& left, const Rational& right) {
-    int znam = NOK(left.getZnam(), right.getZnam());
-    int chis = left.getChis() * (znam / left.getZnam()) + right.getChis() * (znam / right.getZnam());
+    int znam = NOK(left.znam, right.znam);
+    int chis = left.chis * (znam / left.znam) + right.chis * (znam / right.znam);
     Rational result(chis, znam);
     return result;
 }
 
-Rational operator+ (int left, Rational& right) {
+Rational operator+ (const int left, const Rational& right) {
     Rational leftRational = left;
     Rational result = leftRational + right;
     return result;
 }
 
-Rational operator+ (Rational& left, int right) {
+Rational operator+ (const Rational& left, const int right) {
     Rational rightRational = right;
     Rational result = left + rightRational;
     return result;
 }
 
-Rational operator- (Rational& left, Rational& right) {
-    int znam = NOK(left.getZnam(), right.getZnam());
-    int chis = left.getChis() * (znam / left.getZnam()) - right.getChis() * (znam / right.getZnam());
+Rational operator- (const Rational& left, const Rational& right) {
+    int znam = NOK(left.znam, right.znam);
+    int chis = left.chis * (znam / left.znam) - right.chis * (znam / right.znam);
     Rational result(chis, znam);
     return result;
 }
 
-Rational operator- (int left, Rational& right) {
+Rational operator- (const int left, const Rational& right) {
     Rational leftRational = left;
     Rational result = leftRational - right;
     return result;
 }
 
-Rational operator- (Rational& left, int right) {
+Rational operator- (const Rational& left, const int right) {
     Rational rightRational = right;
     Rational result = left - rightRational;
     return result;
 }
 
-Rational operator* (Rational& left, Rational& right) {
-    int chis = left.getChis() * right.getChis();
-    int znam = left.getZnam() * right.getZnam();
+Rational operator* (const Rational& left, const Rational& right) {
+    int chis = left.chis * right.chis;
+    int znam = left.znam * right.znam;
     Rational result(chis, znam);
     return result;
 }
 
-Rational operator* (int left, Rational& right) {
+Rational operator* (const int left, const Rational& right) {
     Rational leftRational = left;
     Rational result = leftRational * right;
     return result;
 }
 
-Rational operator* (Rational& left, int right) {
+Rational operator* (const Rational& left, const int right) {
     Rational rightRational = right;
     Rational result = left * rightRational;
     return result;
 }
 
-Rational operator/ (Rational& left, Rational& right) {
-    Rational nright(right.getZnam(), right.getChis());
+Rational operator/ (const Rational& left, const Rational& right) {
+    Rational nright(right.znam, right.chis);
     Rational result = left * nright;
     return result;
 }
 
-Rational operator/ (int left, Rational& right) {
+Rational operator/ (const int left, const Rational& right) {
     Rational leftRational = left;
     Rational result = leftRational / right;
     return result;
 }
 
-Rational operator/ (Rational& left, int right) {
+Rational operator/ (const Rational& left, const int right) {
     Rational rightRational = right;
     Rational result = left / rightRational;
     return result;
 }
 
-ostream& operator<< (ostream& out, Rational& r) {
-    out << r.getChis() << '/' << r.getZnam() << endl;
+ostream& operator<< (ostream& out, const Rational& r) {
+    out << r.chis << '/' << r.znam << endl;
     return out;
 }
 
-bool operator> (Rational& left, Rational& right) {
-    int znam = NOK(left.getZnam(), right.getZnam());
-    int chisl = left.getChis() * (znam / left.getZnam());
-    int chisr = right.getChis() * (znam / right.getZnam());
+bool operator> (const Rational& left, const Rational& right) {
+    int znam = NOK(left.znam, right.znam);
+    int chisl = left.chis * (znam / left.znam);
+    int chisr = right.chis * (znam / right.znam);
     return chisl > chisr;
+}
+
+bool operator> (const int left, const Rational& right) {
+    Rational leftRational = left;
+    bool result = leftRational > right;
+    return result;
+}
+
+bool operator> (const Rational& left, const int right) {
+    Rational rightRational = right;
+    bool result = left > rightRational;
+    return result;
+}
+
+bool operator< (const Rational& left, const Rational& right) {
+    return !(left > right);
+}
+
+bool operator< (const int left, const Rational& right) {
+    Rational leftRational = left;
+    bool result = leftRational < right;
+    return result;
+}
+
+bool operator< (const Rational& left, const int right) {
+    Rational rightRational = right;
+    bool result = left < rightRational;
+    return result;
+}
+
+bool operator== (const Rational& left, const Rational& right) {
+    return (left.chis == right.chis) && (left.znam == right.znam);
+}
+
+bool operator== (const int left, const Rational& right) {
+    Rational leftRational = left;
+    bool result = leftRational == right;
+    return result;
+}
+
+bool operator== (const Rational& left, const int right) {
+    Rational rightRational = right;
+    bool result = left == rightRational;
+    return result;
+}
+
+bool operator!= (const Rational& left, const Rational& right) {
+    return !(left==right);
+}
+
+bool operator!= (const int left, const Rational& right) {
+    Rational leftRational = left;
+    bool result = leftRational != right;
+    return result;
+}
+
+bool operator!= (const Rational& left, const int right) {
+    Rational rightRational = right;
+    bool result = left != rightRational;
+    return result;
+}
+
+bool operator>= (const Rational& left, const Rational& right) {
+    return (left>right)||(left==right);
+}
+
+bool operator>= (const int left, const Rational& right) {
+    Rational leftRational = left;
+    bool result = leftRational >= right;
+    return result;
+}
+
+bool operator>= (const Rational& left, const int right) {
+    Rational rightRational = right;
+    bool result = left >= rightRational;
+    return result;
+}
+
+bool operator<= (const Rational& left, const Rational& right) {
+    return (left < right) || (left == right);
+}
+
+bool operator<= (const int left, const Rational& right) {
+    Rational leftRational = left;
+    bool result = leftRational <= right;
+    return result;
+}
+
+bool operator<= (const Rational& left, const int right) {
+    Rational rightRational = right;
+    bool result = left <= rightRational;
+    return result;
 }
 
 int main()
@@ -162,7 +246,15 @@ int main()
     Rational res5 = num3 / num4;
     cout << "2/3 / 3/5 = " << res5 << endl;
     
-    //переделать с выводом текстика, а не 0 и 1
     bool res6 = num3 > num4;
-    cout << "2/3 > 3/5 = " << res6 << endl;
+    if (res6 == 1)
+        cout << "2/3 > 3/5" << endl;
+    else
+        cout << "2/3 < 3/5" << endl;
+
+    bool res7 = num3 == num4;
+    if (res7 == 1)
+        cout << "2/3 == 3/5" << endl;
+    else
+        cout << "2/3 != 3/5" << endl;
 }
